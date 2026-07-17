@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 
+const BASE = process.env.APP_URL || "http://127.0.0.1:3000";
+
 export async function GET(req: NextRequest) {
   const clientId = process.env.X_CLIENT_ID!;
-  const redirectUri = "http://127.0.0.1:3000/api/auth/callback";
+  const redirectUri = BASE + "/api/auth/callback";
   const scope = "users.read tweet.read offline.access";
   const state = Math.random().toString(36).slice(2);
   const url =

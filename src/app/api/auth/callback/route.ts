@@ -1,13 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import pool from "@/lib/db";
 
+const BASE = process.env.APP_URL || "http://127.0.0.1:3000";
+
 export async function GET(req: NextRequest) {
   const code = req.nextUrl.searchParams.get("code");
   if (!code) return new NextResponse("No code", { status: 400 });
 
   const clientId = process.env.X_CLIENT_ID!;
   const clientSecret = process.env.X_CLIENT_SECRET!;
-  const redirectUri = "http://127.0.0.1:3000/api/auth/callback";
+  const redirectUri = BASE + "/api/auth/callback";
 
   const tokenRes = await fetch("https://api.x.com/2/oauth2/token", {
     method: "POST",
@@ -32,7 +34,6 @@ export async function GET(req: NextRequest) {
   const u = userData.data;
   if (!u) return new NextResponse("No user: " + JSON.stringify(userData), { status: 400 });
 
-  // --- Ethos score lookup by X username ---
   let ethosScore: number | null = null;
   let ethosVerified: string | null = null;
   try {
@@ -47,9 +48,7 @@ export async function GET(req: NextRequest) {
       ethosScore = e.score ?? null;
       ethosVerified = e.humanVerificationStatus ?? null;
     }
-  } catch {
-    // Ethos optional — ignore failures
-  }
+  } catch {}
 
   await pool.query(
     `INSERT INTO users (x_id, username, display_name, avatar_url, ethos_score, ethos_verified)
@@ -58,7 +57,7 @@ export async function GET(req: NextRequest) {
     [u.id, u.username, u.name, u.profile_image_url, ethosScore, ethosVerified]
   );
 
-  const res = NextResponse.redirect("http://127.0.0.1:3000/dashboard");
+  const res = NextResponse.redirect(BASE + "/dashboard");
   res.cookies.set("x_id", u.id, { httpOnly: true, path: "/" });
   return res;
 }
