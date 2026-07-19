@@ -57,3 +57,58 @@ textarea::placeholder {
 .mono {
   font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  font-size: 15px;
+  padding: 14px 26px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.06s ease, box-shadow 0.15s ease, background 0.15s ease,
+    border-color 0.15s ease;
+  text-decoration: none;
+  line-height: 1;
+}
+
+/* Primary — solid white, raised */
+.btn-primary {
+  background: #ffffff;
+  color: #0a0a0b;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset,
+    0 4px 14px rgba(0, 0, 0, 0.5), 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+.btn-primary:hover {
+  background: #f0f0f0;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset,
+    0 6px 20px rgba(0, 0, 0, 0.55), 0 2px 4px rgba(0, 0, 0, 0.6);
+  text-decoration: none;
+}
+.btn-primary:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset,
+    0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+/* Secondary — dark, raised, subtle border highlight */
+.btn-secondary {
+  background: linear-gradient(180deg, #1c1c20 0%, #141416 100%);
+  color: #ffffff;
+  border: 1px solid #2f2f36;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06) inset,
+    0 4px 14px rgba(0, 0, 0, 0.5), 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+.btn-secondary:hover {
+  border-color: #44444d;
+  background: linear-gradient(180deg, #222228 0%, #18181b 100%);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08) inset,
+    0 6px 20px rgba(0, 0, 0, 0.55), 0 2px 4px rgba(0, 0, 0, 0.6);
+  text-decoration: none;
+}
+.btn-secondary:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset,
+    0 2px 6px rgba(0, 0, 0, 0.5);
+}

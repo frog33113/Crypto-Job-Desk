@@ -114,7 +114,7 @@ export default async function Dashboard() {
 
           <button
             type="submit"
-            className="px-5 py-2.5 bg-white text-black rounded-lg font-medium text-sm hover:bg-[#e6e6e6] transition-colors"
+            className="btn btn-primary"
           >
             Save profile
           </button>

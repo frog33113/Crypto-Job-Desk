@@ -13,16 +13,10 @@ export default function Home() {
           verified through Ethos — so you hire people, not anonymous handles.
         </p>
         <div className="mt-9 flex items-center gap-4">
-          <a
-            href="/api/auth/login"
-            className="px-6 py-3.5 bg-white text-black rounded-xl font-medium text-[15px] hover:no-underline hover:bg-[#e6e6e6] transition-colors"
-          >
+          <a href="/api/auth/login" className="btn btn-primary">
             Sign in with X
           </a>
-          <a
-            href="/candidates"
-            className="px-6 py-3.5 border border-[#26262b] text-white rounded-xl font-medium text-[15px] hover:no-underline hover:border-[#3a3a42] transition-colors"
-          >
+          <a href="/candidates" className="btn btn-secondary">
             Browse candidates
           </a>
         </div>
