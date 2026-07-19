@@ -63,7 +63,7 @@ export default async function Dashboard() {
       <main className="max-w-[600px] mx-auto px-5 py-10">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-semibold text-white tracking-tight">
-            Your profile
+            Edit your profile
           </h1>
           <a
             href="/api/auth/logout"

@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import pool from "@/lib/db";
 import Header from "../../components/Header";
 import { EthosBadge } from "../../components/EthosBadge";
+import { getCurrentUser } from "@/lib/auth";
 
 export default async function PublicProfile({
   params,
@@ -20,6 +21,9 @@ export default async function PublicProfile({
   );
   const user = u.rows[0];
   if (!user) notFound();
+
+  const me = await getCurrentUser();
+  const isOwn = me?.username?.toLowerCase() === user.username.toLowerCase();
 
   const c = await pool.query("SELECT * FROM candidates WHERE user_id = $1", [
     user.id,
@@ -52,9 +56,19 @@ export default async function PublicProfile({
             />
           )}
           <div>
-            <h1 className="text-2xl font-semibold text-white tracking-tight m-0">
-              @{user.username}
-            </h1>
+            <div className="flex items-center gap-3">
+              <h1 className="text-2xl font-semibold text-white tracking-tight m-0">
+                @{user.username}
+              </h1>
+              {isOwn && (
+                <a
+                  href="/dashboard"
+                  className="text-xs px-2.5 py-1 rounded-md border border-[#26262b] text-[#b5b5bd] hover:border-[#3a3a42] hover:text-white transition-colors"
+                >
+                  Edit profile
+                </a>
+              )}
+            </div>
             <div className="mt-2">
               <EthosBadge score={user.ethos_score} verified={user.ethos_verified} />
             </div>
