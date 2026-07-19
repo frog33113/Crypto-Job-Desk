@@ -1,10 +1,18 @@
 "use client";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 type Cand = {
-  username: string; avatar_url: string | null; ethos_score: number | null;
-  ethos_verified: string | null; role: string | null; skills: string | null;
-  region: string | null; remote: boolean; experience: string | null; bio: string | null;
+  username: string;
+  avatar_url: string | null;
+  ethos_score: number | null;
+  ethos_verified: string | null;
+  role: string | null;
+  skills: string | null;
+  region: string | null;
+  remote: boolean;
+  experience: string | null;
+  bio: string | null;
 };
 
 export default function Candidates() {
@@ -18,33 +26,66 @@ export default function Candidates() {
   }, [q]);
 
   return (
-    <main style={{ maxWidth: 800, margin: "40px auto", fontFamily: "sans-serif", padding: "0 16px" }}>
-      <h1>Crypto Twitter candidates</h1>
-      <input
-        placeholder="Search role or skill..."
-        value={q}
-        onChange={(e) => setQ(e.target.value)}
-        style={{ width: "100%", padding: 10, marginBottom: 20, fontSize: 16 }}
-      />
-      {list.length === 0 && <p>No candidates yet.</p>}
-      {list.map((c) => (
-        <div key={c.username} style={{ border: "1px solid #eee", borderRadius: 10, padding: 16, marginBottom: 12 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            {c.avatar_url && <img src={c.avatar_url} width={40} height={40} style={{ borderRadius: "50%" }} alt="" />}
-            <div>
-              <strong>@{c.username}</strong>
-              {c.ethos_score != null && (
-                <span style={{ marginLeft: 8, color: "#1d9bf0" }}>
-                  Ethos {c.ethos_score} {c.ethos_verified === "VERIFIED" ? "✓" : ""}
-                </span>
+    <>
+      <header className="flex items-center justify-between px-6 py-4 border-b border-[#222] max-w-[900px] mx-auto w-full">
+        <Link href="/" className="text-white font-bold text-lg no-underline hover:no-underline">
+          Crypto Job Desk
+        </Link>
+        <nav className="flex gap-5 text-sm">
+          <Link href="/candidates" className="text-[#1d9bf0] hover:text-[#1d9bf0]">
+            Candidates
+          </Link>
+          <a href="/api/auth/login" className="text-[#aaa] hover:text-white">
+            Sign in
+          </a>
+        </nav>
+      </header>
+      <main className="max-w-[800px] mx-auto px-4 mt-8">
+        <input
+          placeholder="Search role or skill..."
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+          className="w-full p-3 mb-6 text-base bg-[#151515] border border-[#333] rounded-lg text-white outline-none focus:border-[#1d9bf0]"
+        />
+        {list.length === 0 && <p className="text-[#666]">No candidates yet.</p>}
+        {list.map((c) => (
+          <div
+            key={c.username}
+            className="bg-[#151515] border border-[#222] rounded-xl p-4 mb-3"
+          >
+            <div className="flex items-center gap-3">
+              {c.avatar_url && (
+                <img
+                  src={c.avatar_url}
+                  width={44}
+                  height={44}
+                  className="rounded-full"
+                  alt=""
+                />
               )}
+              <div>
+                <strong className="text-white">@{c.username}</strong>
+                {c.ethos_score != null && (
+                  <span className="ml-2 text-[#1d9bf0] text-sm">
+                    Ethos {c.ethos_score}{" "}
+                    {c.ethos_verified === "VERIFIED" ? "✓" : ""}
+                  </span>
+                )}
+              </div>
             </div>
+            <p className="mt-2 mb-1 text-white">
+              <b>{c.role || "—"}</b> · {c.region || ""}{" "}
+              {c.remote ? "· remote" : ""}
+            </p>
+            {c.skills && (
+              <p className="text-[#888] text-sm m-0">{c.skills}</p>
+            )}
+            {c.bio && (
+              <p className="text-sm text-[#bbb] mt-1 m-0">{c.bio}</p>
+            )}
           </div>
-          <p style={{ margin: "8px 0" }}><b>{c.role || "—"}</b> · {c.region || ""} {c.remote ? "· remote" : ""}</p>
-          <p style={{ color: "#555", fontSize: 14 }}>{c.skills}</p>
-          {c.bio && <p style={{ fontSize: 14 }}>{c.bio}</p>}
-        </div>
-      ))}
-    </main>
+        ))}
+      </main>
+    </>
   );
 }

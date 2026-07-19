@@ -1,16 +1,29 @@
+import Header from "./components/Header";
+
 export default function Home() {
   return (
-    <main style={{ maxWidth: 600, margin: "80px auto", fontFamily: "sans-serif", textAlign: "center" }}>
-      <h1>cryptowork</h1>
-      <p>Find jobs among verified people in crypto Twitter.</p>
-      <a href="/api/auth/login"
-         style={{ display: "inline-block", marginTop: 16, padding: "12px 24px",
-                  background: "black", color: "white", borderRadius: 8, textDecoration: "none" }}>
-        Sign in with X
-      </a>
-      <p style={{ marginTop: 24 }}>
-        <a href="/candidates">Browse candidates</a>
-      </p>
-    </main>
+    <>
+      <Header />
+      <main className="max-w-[600px] mx-auto text-center mt-24 px-4">
+        <h1 className="text-4xl font-bold text-white m-0">Crypto Job Desk</h1>
+        <p className="text-[#aaa] text-lg mt-3">
+          Find jobs among verified people in crypto Twitter.
+        </p>
+        <div className="mt-8 flex gap-3 justify-center">
+          <a
+            href="/api/auth/login"
+            className="px-6 py-3 bg-[#1d9bf0] text-white rounded-lg font-semibold hover:no-underline"
+          >
+            Sign in with X
+          </a>
+          <a
+            href="/candidates"
+            className="px-6 py-3 border border-[#333] text-white rounded-lg hover:no-underline"
+          >
+            Browse candidates
+          </a>
+        </div>
+      </main>
+    </>
   );
 }
