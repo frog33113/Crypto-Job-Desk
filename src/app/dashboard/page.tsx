@@ -8,8 +8,9 @@ async function save(formData: FormData) {
   "use server";
   const xId = (await cookies()).get("x_id")?.value;
   if (!xId) return;
-  const u = await pool.query("SELECT id FROM users WHERE x_id = $1", [xId]);
+  const u = await pool.query("SELECT id, username FROM users WHERE x_id = $1", [xId]);
   const userId = u.rows[0]?.id;
+  const username = u.rows[0]?.username;
   if (!userId) return;
   const open = formData.get("open_to_work") === "on";
   const remote = formData.get("remote") === "on";
@@ -29,7 +30,7 @@ async function save(formData: FormData) {
       formData.get("bio"),
     ]
   );
-  redirect("/u/" + encodeURIComponent(u.rows[0]?.username || "") + "?saved=1");
+  redirect("/u/" + encodeURIComponent(username || "") + "?saved=1");
 }
 
 export default async function Dashboard() {
