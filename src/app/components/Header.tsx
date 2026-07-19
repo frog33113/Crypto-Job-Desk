@@ -6,22 +6,33 @@ export default function Header({ user }: { user?: { username: string } | null })
       <div className="max-w-[960px] mx-auto px-5 h-14 flex items-center justify-between">
         <Link
           href="/"
-          className="font-semibold text-[15px] tracking-tight text-white no-underline hover:no-underline"
+          className="flex items-center gap-2 no-underline hover:no-underline"
         >
-          Crypto Job Desk
+          <span className="w-7 h-7 rounded-lg bg-gradient-to-b from-[#2a2a30] to-[#161618] border border-[#33333b] flex items-center justify-center shadow-[0_1px_0_rgba(255,255,255,0.06)_inset,0_2px_6px_rgba(0,0,0,0.5)]">
+            <span className="w-2.5 h-2.5 rounded-[3px] bg-[#5b9dd9]" />
+          </span>
+          <span className="font-semibold text-[15px] tracking-tight text-white">
+            Crypto Job Desk
+          </span>
         </Link>
-        <nav className="flex items-center gap-6 text-sm text-[#8a8a93]">
-          <Link href="/candidates" className="hover:text-white transition-colors no-underline hover:no-underline">
+        <nav className="flex items-center gap-5 text-sm text-[#8a8a93]">
+          <Link
+            href="/candidates"
+            className="hover:text-white transition-colors no-underline hover:no-underline"
+          >
             Candidates
           </Link>
           {user ? (
-            <Link href="/dashboard" className="hover:text-white transition-colors no-underline hover:no-underline">
+            <Link
+              href="/dashboard"
+              className="btn btn-secondary text-[13px] py-2 px-4"
+            >
               @{user.username}
             </Link>
           ) : (
             <Link
               href="/api/auth/login"
-              className="text-white hover:text-white transition-colors no-underline hover:no-underline"
+              className="btn btn-secondary text-[13px] py-2 px-4"
             >
               Sign in
             </Link>
