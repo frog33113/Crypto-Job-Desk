@@ -36,7 +36,7 @@ export default async function Dashboard() {
   const user = await getCurrentUser();
   if (!user)
     return (
-      <p className="text-center mt-20 text-[#aaa]">
+      <p className="text-center mt-20 text-[#8a8a93]">
         Not authorized. <a href="/">Sign in</a>
       </p>
     );
@@ -46,67 +46,76 @@ export default async function Dashboard() {
   ]);
   const profile = c.rows[0] || {};
 
-  const ethos =
-    user.ethos_score != null
-      ? `Ethos score: ${user.ethos_score} ${
-          user.ethos_verified === "VERIFIED" ? "(verified human)" : ""
-        }`
-      : "Ethos score: not found";
-
   const field = (name: string, placeholder: string, value: string) => (
-    <p>
-      <input
-        name={name}
-        placeholder={placeholder}
-        defaultValue={value}
-        className="w-full p-2.5 bg-[#151515] border border-[#333] rounded-lg text-white outline-none focus:border-[#1d9bf0]"
-      />
-    </p>
+    <input
+      name={name}
+      placeholder={placeholder}
+      defaultValue={value}
+      className="w-full px-3 py-2.5 bg-[#141416] border border-[#26262b] rounded-lg text-white text-sm outline-none focus:border-[#3a3a42] transition-colors"
+    />
   );
 
   return (
     <>
       <Header user={user} />
-      <main className="max-w-[600px] mx-auto px-4 mt-10">
-        <div className="flex justify-between items-center">
-          <h1 className="text-white">Your profile, @{user.username}</h1>
-          <a href="/api/auth/logout" className="text-[#888] text-sm hover:text-white">
+      <main className="max-w-[600px] mx-auto px-5 py-10">
+        <div className="flex items-center justify-between">
+          <h1 className="text-2xl font-semibold text-white tracking-tight">
+            Your profile
+          </h1>
+          <a
+            href="/api/auth/logout"
+            className="text-[#8a8a93] text-sm hover:text-white transition-colors"
+          >
             Logout
           </a>
         </div>
-        <p className="font-bold text-[#1d9bf0]">{ethos}</p>
-        <form action={save}>
-          <label className="text-[#ccc]">
+        <p className="mono text-sm text-[#8a8a93] mt-1">@{user.username}</p>
+
+        <div className="mt-6 bg-[#141416] border border-[#26262b] rounded-xl px-4 py-3 inline-block">
+          <span className="mono text-sm text-white">
+            Ethos {user.ethos_score ?? "—"}
+            {user.ethos_verified === "VERIFIED" ? " ✓" : ""}
+          </span>
+        </div>
+
+        <form action={save} className="mt-8 space-y-4">
+          <label className="flex items-center gap-2 text-sm text-[#b5b5bd] cursor-pointer">
             <input
               type="checkbox"
               name="open_to_work"
               defaultChecked={profile.open_to_work !== false}
-            />{" "}
+              className="accent-[#5b9dd9]"
+            />
             Open to work
           </label>
+
           {field("role", "Role (e.g. Solidity dev)", profile.role || "")}
           {field("skills", "Skills (comma separated)", profile.skills || "")}
           {field("region", "Region (e.g. EU, remote)", profile.region || "")}
-          <label className="text-[#ccc]">
+
+          <label className="flex items-center gap-2 text-sm text-[#b5b5bd] cursor-pointer">
             <input
               type="checkbox"
               name="remote"
               defaultChecked={profile.remote !== false}
-            />{" "}
+              className="accent-[#5b9dd9]"
+            />
             Remote OK
           </label>
+
           {field("experience", "Experience (e.g. 3 years)", profile.experience || "")}
-          <p>
-            <textarea
-              name="bio"
-              placeholder="Short bio"
-              defaultValue={profile.bio || ""}
-              className="w-full p-2.5 bg-[#151515] border border-[#333] rounded-lg text-white outline-none focus:border-[#1d9bf0] min-h-[90px]"
-            />
-          </p>
+
+          <textarea
+            name="bio"
+            placeholder="Short bio"
+            defaultValue={profile.bio || ""}
+            className="w-full px-3 py-2.5 bg-[#141416] border border-[#26262b] rounded-lg text-white text-sm outline-none focus:border-[#3a3a42] transition-colors min-h-[90px] resize-y"
+          />
+
           <button
             type="submit"
-            className="px-5 py-2.5 bg-[#1d9bf0] text-white border-none rounded-md font-semibold hover:no-underline"
+            className="px-5 py-2.5 bg-white text-black rounded-lg font-medium text-sm hover:bg-[#e6e6e6] transition-colors"
           >
             Save profile
           </button>
