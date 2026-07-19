@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import pool from "@/lib/db";
 import Header from "../components/Header";
+import { EthosBadge } from "../components/EthosBadge";
 import { getCurrentUser } from "@/lib/auth";
 
 async function save(formData: FormData) {
@@ -74,10 +75,7 @@ export default async function Dashboard() {
         <p className="mono text-sm text-[#8a8a93] mt-1">@{user.username}</p>
 
         <div className="mt-6 bg-[#141416] border border-[#26262b] rounded-xl px-4 py-3 inline-block">
-          <span className="mono text-sm text-white">
-            Ethos {user.ethos_score ?? "—"}
-            {user.ethos_verified === "VERIFIED" ? " ✓" : ""}
-          </span>
+          <EthosBadge score={user.ethos_score} verified={user.ethos_verified} />
         </div>
 
         <form action={save} className="mt-8 space-y-4">

@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { EthosBadge } from "./components/EthosBadge";
 
 type Cand = {
   username: string;
@@ -14,19 +15,6 @@ type Cand = {
   experience: string | null;
   bio: string | null;
 };
-
-function EthosBadge({ score, verified }: { score: number | null; verified: string | null }) {
-  if (score == null) return null;
-  return (
-    <span
-      className="mono text-xs px-2 py-0.5 rounded-full border border-[#26262b] text-[#8a8a93]"
-      title="Ethos trust score"
-    >
-      Ethos {score}
-      {verified === "VERIFIED" ? " ✓" : ""}
-    </span>
-  );
-}
 
 export default function Candidates() {
   const [list, setList] = useState<Cand[]>([]);

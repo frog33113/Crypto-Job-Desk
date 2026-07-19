@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import pool from "@/lib/db";
 import Header from "../../components/Header";
+import { EthosBadge } from "../../components/EthosBadge";
 
 export default async function PublicProfile({
   params,
@@ -55,10 +56,7 @@ export default async function PublicProfile({
               @{user.username}
             </h1>
             <div className="mt-2">
-              <span className="mono text-xs px-2 py-0.5 rounded-full border border-[#26262b] text-[#8a8a93]">
-                Ethos {user.ethos_score ?? "—"}
-                {user.ethos_verified === "VERIFIED" ? " ✓" : ""}
-              </span>
+              <EthosBadge score={user.ethos_score} verified={user.ethos_verified} />
             </div>
           </div>
         </div>
