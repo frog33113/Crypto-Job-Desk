@@ -65,7 +65,7 @@ export default function Candidates() {
             placeholder="Search role or skill..."
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            className="w-64 px-3 py-2 text-sm bg-[#141416] border border-[#26262b] rounded-lg text-white outline-none focus:border-[#3a3a42] transition-colors"
+            className="w-64 px-3 py-2 text-sm bg-[#1a1a1d] border border-[#26262b] rounded-lg text-white outline-none focus:border-[#3a3a42] transition-colors"
           />
         </div>
 

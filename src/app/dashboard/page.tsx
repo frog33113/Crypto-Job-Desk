@@ -51,7 +51,7 @@ export default async function Dashboard() {
       name={name}
       placeholder={placeholder}
       defaultValue={value}
-      className="w-full px-3 py-2.5 bg-[#141416] border border-[#26262b] rounded-lg text-white text-sm outline-none focus:border-[#3a3a42] transition-colors"
+      className="w-full px-3 py-2.5 bg-[#1a1a1d] border border-[#26262b] rounded-lg text-white text-sm outline-none focus:border-[#3a3a42] transition-colors"
     />
   );
 
@@ -110,7 +110,7 @@ export default async function Dashboard() {
             name="bio"
             placeholder="Short bio"
             defaultValue={profile.bio || ""}
-            className="w-full px-3 py-2.5 bg-[#141416] border border-[#26262b] rounded-lg text-white text-sm outline-none focus:border-[#3a3a42] transition-colors min-h-[90px] resize-y"
+            className="w-full px-3 py-2.5 bg-[#1a1a1d] border border-[#26262b] rounded-lg text-white text-sm outline-none focus:border-[#3a3a42] transition-colors min-h-[90px] resize-y"
           />
 
           <button

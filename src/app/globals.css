@@ -5,6 +5,7 @@
 :root {
   --bg: #0a0a0b;
   --panel: #141416;
+  --field: #1a1a1d;
   --border: #26262b;
   --text: #ededed;
   --muted: #8a8a93;
@@ -39,6 +40,18 @@ input,
 textarea,
 button {
   font-family: inherit;
+}
+
+input,
+textarea {
+  color: #ffffff;
+  background-color: var(--field);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #6b6b73;
+  opacity: 1;
 }
 
 .mono {
