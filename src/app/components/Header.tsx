@@ -1,8 +1,6 @@
 import Link from "next/link";
-import { getCurrentUser } from "@/lib/auth";
 
-export default async function Header() {
-  const user = await getCurrentUser();
+export default function Header() {
   return (
     <header className="sticky top-0 z-10 backdrop-blur bg-[#07070a]/85 border-b border-[#2a2a32]">
       <div className="max-w-[1080px] mx-auto px-5 h-16 flex items-center justify-between gap-4">
@@ -41,25 +39,12 @@ export default async function Header() {
 
         {/* Right: actions */}
         <div className="flex items-center gap-3 shrink-0">
-          {user ? (
-            <Link href={"/u/" + user.username} className="no-underline hover:no-underline">
-              <span className="w-9 h-9 rounded-full bg-gradient-to-br from-[#2a2a32] to-[#161618] border border-[#33333d] flex items-center justify-center text-[#5b9dd9] text-sm font-bold shadow-[0_0_10px_rgba(91,157,217,0.25)]">
-                @{user.username.slice(0, 1).toUpperCase()}
-              </span>
-            </Link>
-          ) : (
-            <>
-              <Link href="/api/auth/login" className="btn neon-secondary text-[13px] py-2 px-4">
-                Log in
-              </Link>
-              <Link
-                href="/api/auth/login"
-                className="btn neon-primary text-[13px] py-2 px-4"
-              >
-                Sign up
-              </Link>
-            </>
-          )}
+          <Link href="/api/auth/login" className="btn neon-secondary text-[13px] py-2 px-4">
+            Log in
+          </Link>
+          <Link href="/api/auth/login" className="btn neon-primary text-[13px] py-2 px-4">
+            Sign up
+          </Link>
         </div>
       </div>
     </header>

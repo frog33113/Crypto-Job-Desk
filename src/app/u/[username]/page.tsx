@@ -36,7 +36,7 @@ export default async function PublicProfile({
 
   return (
     <>
-      <Header user={user} />
+      <Header />
       {saved && (
         <div className="max-w-[640px] mx-auto px-5 pt-6">
           <div className="bg-[#141416] border border-[#26262b] rounded-lg px-4 py-2.5 text-sm text-[#b5b5bd]">

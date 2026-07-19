@@ -59,7 +59,7 @@ export default async function Dashboard() {
 
   return (
     <>
-      <Header user={user} />
+      <Header />
       <main className="max-w-[600px] mx-auto px-5 py-10">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-semibold text-white tracking-tight">
