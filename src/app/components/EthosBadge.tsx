@@ -1,22 +1,19 @@
-import Link from "next/link";
-
 export function EthosMark({ size = 14 }: { size?: number }) {
   return (
     <svg
       width={size}
       height={size}
-      viewBox="0 0 24 24"
+      viewBox="0 0 32 32"
       fill="none"
       aria-label="Ethos"
-      style={{ display: "inline-block", verticalAlign: "middle" }}
+      style={{ display: "inline-block", verticalAlign: "middle", flexShrink: 0 }}
     >
-      <rect width="24" height="24" rx="6" fill="#1d9bf0" />
-      <path
-        d="M7 7h8M7 12h6M7 17h8"
-        stroke="#fff"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
+      <rect width="32" height="32" rx="8" fill="#1d9bf0" />
+      {/* Ethos "E": vertical stem + three horizontal bars */}
+      <rect x="9" y="8" width="3.2" height="16" rx="1.2" fill="#fff" />
+      <rect x="9" y="8" width="13" height="3.2" rx="1.2" fill="#fff" />
+      <rect x="9" y="14.4" width="10" height="3.2" rx="1.2" fill="#fff" />
+      <rect x="9" y="20.8" width="13" height="3.2" rx="1.2" fill="#fff" />
     </svg>
   );
 }
