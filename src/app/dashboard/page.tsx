@@ -67,7 +67,7 @@ export default async function Dashboard() {
           </h1>
           <a
             href="/api/auth/logout"
-            className="text-[#8a8a93] text-sm hover:text-white transition-colors"
+            className="btn btn-secondary text-[13px] py-2 px-4"
           >
             Logout
           </a>

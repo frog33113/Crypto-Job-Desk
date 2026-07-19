@@ -45,20 +45,37 @@ export default function Candidates() {
       </header>
 
       <main className="max-w-[960px] mx-auto px-5 py-8">
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between mb-6 gap-3 flex-wrap">
           <h1 className="text-2xl font-semibold text-white tracking-tight">
             Candidates
           </h1>
-          <input
-            placeholder="Search role or skill..."
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-            className="w-64 px-3 py-2 text-sm bg-[#1a1a1d] border border-[#26262b] rounded-lg text-white outline-none focus:border-[#3a3a42] transition-colors"
-          />
+          <div className="flex items-center gap-2">
+            <input
+              placeholder="Search role or skill..."
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              className="w-56 px-3 py-2.5 text-sm bg-[#1a1a1d] border border-[#26262b] rounded-lg text-white outline-none focus:border-[#3a3a42] transition-colors"
+            />
+            <button
+              type="button"
+              onClick={() => setQ(q)}
+              className="btn btn-secondary text-[13px] py-2 px-4"
+            >
+              Search
+            </button>
+          </div>
         </div>
 
         {list.length === 0 ? (
-          <p className="text-[#8a8a93] text-sm">No candidates yet.</p>
+          <div className="bg-[#141416] border border-[#26262b] rounded-xl p-10 text-center">
+            <p className="text-white font-medium">No candidates yet.</p>
+            <p className="text-[#8a8a93] text-sm mt-1">
+              Be the first to post your profile and get hired through crypto Twitter.
+            </p>
+            <a href="/api/auth/login" className="btn btn-primary mt-5 inline-flex">
+              Post your profile
+            </a>
+          </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {list.map((c) => (

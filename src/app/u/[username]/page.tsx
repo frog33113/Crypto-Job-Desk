@@ -63,7 +63,7 @@ export default async function PublicProfile({
               {isOwn && (
                 <a
                   href="/dashboard"
-                  className="text-xs px-2.5 py-1 rounded-md border border-[#26262b] text-[#b5b5bd] hover:border-[#3a3a42] hover:text-white transition-colors"
+                  className="btn btn-secondary text-[13px] py-2 px-4"
                 >
                   Edit profile
                 </a>
