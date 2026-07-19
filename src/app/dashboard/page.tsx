@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import pool from "@/lib/db";
-import Header from "./components/Header";
+import Header from "../components/Header";
 import { getCurrentUser } from "@/lib/auth";
 
 async function save(formData: FormData) {
