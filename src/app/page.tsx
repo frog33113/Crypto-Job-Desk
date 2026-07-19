@@ -1,14 +1,29 @@
 import Header from "./components/Header";
 
+const features = [
+  {
+    title: "Ethos-verified",
+    desc: "Trust scoring on every profile. Hire people, not anonymous handles.",
+  },
+  {
+    title: "Crypto-native",
+    desc: "Roles built for crypto — protocols, DAOs, funds, infra. No legacy HR.",
+  },
+  {
+    title: "No recruiters",
+    desc: "Direct hires only. Candidates talk to teams, not agencies.",
+  },
+];
+
 export default function Home() {
   return (
     <>
       <Header />
-      <main className="max-w-[960px] mx-auto px-5 pt-24 pb-16">
-        <h1 className="text-5xl font-semibold tracking-tight text-white leading-[1.05] max-w-[640px]">
+      <main className="max-w-[960px] mx-auto px-5 pt-24 pb-20">
+        <h1 className="text-5xl font-semibold tracking-tight text-white leading-[1.05] max-w-[680px]">
           Jobs, filtered by on-chain trust.
         </h1>
-        <p className="text-[#8a8a93] text-lg mt-5 max-w-[520px] leading-relaxed">
+        <p className="text-[#8a8a93] text-lg mt-5 max-w-[540px] leading-relaxed">
           Crypto Job Desk is a job board for crypto Twitter. Every candidate is
           verified through Ethos — so you hire people, not anonymous handles.
         </p>
@@ -20,19 +35,28 @@ export default function Home() {
             Browse candidates
           </a>
         </div>
-        <div className="mt-16 flex gap-10 text-sm text-[#8a8a93] mono">
-          <div>
-            <div className="text-white text-xl">Ethos-verified</div>
-            <div className="mt-1">trust scoring</div>
-          </div>
-          <div>
-            <div className="text-white text-xl">Crypto-native</div>
-            <div className="mt-1">roles only</div>
-          </div>
-          <div>
-            <div className="text-white text-xl">No recruiters</div>
-            <div className="mt-1">direct hires</div>
-          </div>
+
+        <div className="mt-20 grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {features.map((f) => (
+            <div
+              key={f.title}
+              className="bg-[#141416] border border-[#26262b] rounded-xl p-5"
+            >
+              <div className="text-white font-medium">{f.title}</div>
+              <p className="text-[#8a8a93] text-sm mt-2 leading-relaxed">
+                {f.desc}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-16 border-t border-[#26262b] pt-10 text-center">
+          <p className="text-[#8a8a93] text-sm">
+            Looking to hire? Post a role or browse candidates verified by Ethos.
+          </p>
+          <a href="/candidates" className="btn btn-secondary mt-4 inline-flex">
+            See candidates
+          </a>
         </div>
       </main>
     </>
