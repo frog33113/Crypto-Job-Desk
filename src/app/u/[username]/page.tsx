@@ -73,7 +73,7 @@ export default async function PublicProfile({
           </div>
           <div className="text-[#8a8a93] text-sm mt-1">
             {p?.region || "Anywhere"}
-            {p?.remote ? " · remote" : ""}
+            {p?.remote && (!p?.region || !p.region.toLowerCase().includes("remote")) ? " · remote" : ""}
             {p?.experience ? ` · ${p.experience}` : ""}
           </div>
         </div>
