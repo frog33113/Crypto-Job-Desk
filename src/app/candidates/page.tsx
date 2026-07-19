@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { EthosBadge } from "./components/EthosBadge";
+import { EthosBadge } from "../components/EthosBadge";
 
 type Cand = {
   username: string;
