@@ -74,9 +74,10 @@ export default function Candidates() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {list.map((c) => (
-              <div
+              <Link
                 key={c.username}
-                className="bg-[#141416] border border-[#26262b] rounded-xl p-5 hover:border-[#3a3a42] transition-colors"
+                href={"/u/" + c.username}
+                className="block bg-[#141416] border border-[#26262b] rounded-xl p-5 hover:border-[#3a3a42] transition-colors hover:no-underline"
               >
                 <div className="flex items-center gap-3">
                   {c.avatar_url && (
@@ -130,7 +131,7 @@ export default function Candidates() {
                     {c.bio}
                   </p>
                 )}
-              </div>
+              </Link>
             ))}
           </div>
         )}

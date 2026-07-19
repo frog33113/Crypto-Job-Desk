@@ -29,7 +29,7 @@ async function save(formData: FormData) {
       formData.get("bio"),
     ]
   );
-  redirect("/dashboard");
+  redirect("/u/" + encodeURIComponent(u.rows[0]?.username || "") + "?saved=1");
 }
 
 export default async function Dashboard() {
