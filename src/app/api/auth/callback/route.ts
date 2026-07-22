@@ -1,12 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import pool from "@/lib/db";
 
-const BASE = process.env.APP_URL || "http://127.0.0.1:3000";
+function getBase(req: NextRequest) {
+  const host = req.headers.get("host") || "127.0.0.1:3000";
+  const proto = host.startsWith("127.0.0.1") || host.startsWith("localhost") ? "http" : "https";
+  return `${proto}://${host}`;
+}
 
 export async function GET(req: NextRequest) {
   const code = req.nextUrl.searchParams.get("code");
   if (!code) return new NextResponse("No code", { status: 400 });
 
+  const BASE = getBase(req);
   const clientId = process.env.X_CLIENT_ID!;
   const clientSecret = process.env.X_CLIENT_SECRET!;
   const redirectUri = BASE + "/api/auth/callback";
@@ -58,6 +63,12 @@ export async function GET(req: NextRequest) {
   );
 
   const res = NextResponse.redirect(BASE + "/dashboard");
-  res.cookies.set("x_id", u.id, { httpOnly: true, path: "/" });
+  res.cookies.set("x_id", u.id, {
+    httpOnly: true,
+    path: "/",
+    maxAge: 60 * 60 * 24 * 30,
+    sameSite: "lax",
+    secure: BASE.startsWith("https"),
+  });
   return res;
 }

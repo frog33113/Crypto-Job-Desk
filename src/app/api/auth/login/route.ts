@@ -1,9 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const BASE = process.env.APP_URL || "http://127.0.0.1:3000";
+function getBase(req: NextRequest) {
+  const host = req.headers.get("host") || "127.0.0.1:3000";
+  const proto = host.startsWith("127.0.0.1") || host.startsWith("localhost") ? "http" : "https";
+  return `${proto}://${host}`;
+}
 
 export async function GET(req: NextRequest) {
   const clientId = process.env.X_CLIENT_ID!;
+  const BASE = getBase(req);
   const redirectUri = BASE + "/api/auth/callback";
   const scope = "users.read tweet.read offline.access";
   const state = Math.random().toString(36).slice(2);
