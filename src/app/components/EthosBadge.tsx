@@ -3,17 +3,17 @@ export function EthosMark({ size = 14 }: { size?: number }) {
     <svg
       width={size}
       height={size}
-      viewBox="0 0 32 32"
+      viewBox="0 1 30 30"
       fill="none"
       aria-label="Ethos"
       style={{ display: "inline-block", verticalAlign: "middle", flexShrink: 0 }}
     >
-      <rect width="32" height="32" rx="8" fill="#1d9bf0" />
-      {/* Ethos "E": vertical stem + three horizontal bars */}
-      <rect x="9" y="8" width="3.2" height="16" rx="1.2" fill="#fff" />
-      <rect x="9" y="8" width="13" height="3.2" rx="1.2" fill="#fff" />
-      <rect x="9" y="14.4" width="10" height="3.2" rx="1.2" fill="#fff" />
-      <rect x="9" y="20.8" width="13" height="3.2" rx="1.2" fill="#fff" />
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M12.505 2.6h4.998v9.054l8.453-2.746L27.5 13.66l-8.453 2.746 5.322 7.326-4.043 2.937-5.322-7.325-5.322 7.325-4.044-2.937 5.323-7.326-8.454-2.746 1.545-4.753 8.453 2.746zm6.513 13.798-1.533-4.72h-4.963l-1.533 4.72 4.015 2.917z"
+        fill="#5b9dd9"
+      />
     </svg>
   );
 }
@@ -27,10 +27,14 @@ export function EthosBadge({
 }) {
   if (score == null) return null;
   return (
-    <span className="inline-flex items-center gap-1.5 mono text-xs px-2 py-0.5 rounded-full border border-[#26262b] text-[#8a8a93]">
+    <span className="inline-flex items-center gap-1.5 mono text-xs px-2.5 py-1 rounded-full border border-[#2a2a32] bg-[#0c0c10]/60 text-[#b5b5bd]">
       <EthosMark size={13} />
-      Ethos {score}
-      {verified === "VERIFIED" ? " ✓" : ""}
+      <span className="text-white font-medium">{score}</span>
+      {verified === "VERIFIED" && (
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" style={{ marginLeft: -2 }}>
+          <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" fill="#5b9dd9" />
+        </svg>
+      )}
     </span>
   );
 }

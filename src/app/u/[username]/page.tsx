@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import pool from "@/lib/db";
 import Header from "../../components/Header";
+import { EthosBadge } from "../../components/EthosBadge";
 import { getCurrentUser } from "@/lib/auth";
 
 export default async function PublicProfile({
@@ -34,15 +35,15 @@ export default async function PublicProfile({
       <div className="synth-bg min-h-screen">
         {saved && (
           <div className="max-w-[640px] mx-auto px-5 pt-6">
-            <div className="gloss-panel rounded-lg px-4 py-3 text-sm text-[#b5b5bd] flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#5b9dd9] shadow-[0_0_8px_#5b9dd9]" />
+            <div className="glass rounded-lg px-4 py-3 text-sm text-[#b5b5bd] flex items-center gap-2">
+              <span className="neon-dot" />
               Profile saved
             </div>
           </div>
         )}
 
         <main className="max-w-[640px] mx-auto px-5 py-10">
-          <div className="gloss-panel rounded-2xl p-7">
+          <div className="glass rounded-2xl p-7">
             <div className="flex items-center gap-4">
               {user.avatar_url && (
                 <img src={user.avatar_url} width={72} height={72} className="rounded-full" alt="" />
@@ -53,32 +54,26 @@ export default async function PublicProfile({
                     @{user.username}
                   </h1>
                   {isOwn && (
-                    <a href="/dashboard" className="btn neon-secondary text-[13px] py-2 px-4">
+                    <a href="/dashboard" className="btn btn-secondary text-[13px] py-2 px-4">
                       Edit profile
                     </a>
                   )}
                 </div>
-                {user.ethos_score != null && (
-                  <span className="inline-flex items-center gap-1.5 mono text-xs px-2.5 py-1 rounded-full border border-[#2a2a32] text-[#8a8a93] mt-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#5b9dd9] shadow-[0_0_8px_#5b9dd9]" />
-                    Ethos {user.ethos_score}
-                    {user.ethos_verified === "VERIFIED" ? " ✓" : ""}
-                  </span>
-                )}
+                <div className="mt-2">
+                  <EthosBadge score={user.ethos_score} verified={user.ethos_verified} />
+                </div>
               </div>
             </div>
 
             {p?.open_to_work && (
-              <div className="mt-5 inline-flex items-center gap-1.5 text-sm text-[#b5b5bd] bg-[#0c0c10] border border-[#2a2a32] rounded-lg px-3 py-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#5b9dd9] shadow-[0_0_8px_#5b9dd9]" />
+              <div className="mt-5 inline-flex items-center gap-2 text-sm text-[#b5b5bd] bg-[#0c0c10] border border-[#2a2a32] rounded-lg px-3 py-1.5">
+                <span className="neon-dot" />
                 Open to work
               </div>
             )}
 
             <div className="mt-6">
-              <div className="text-white font-medium text-lg">
-                {p?.role || "Role not specified"}
-              </div>
+              <div className="text-white font-medium text-lg">{p?.role || "Role not specified"}</div>
               <div className="text-[#8a8a93] text-sm mt-1">
                 {p?.region || "Anywhere"}
                 {p?.remote && (!p?.region || !p.region.toLowerCase().includes("remote")) ? " · remote" : ""}
@@ -89,16 +84,12 @@ export default async function PublicProfile({
             {skills.length > 0 && (
               <div className="flex flex-wrap gap-2 mt-5">
                 {skills.map((s: string, i: number) => (
-                  <span key={i} className="mono text-xs px-2.5 py-1 rounded-md bg-[#0c0c10] border border-[#2a2a32] text-[#b5b5bd]">
-                    {s}
-                  </span>
+                  <span key={i} className="tag">{s}</span>
                 ))}
               </div>
             )}
 
-            {p?.bio && (
-              <p className="text-[#b5b5bd] mt-6 leading-relaxed">{p.bio}</p>
-            )}
+            {p?.bio && <p className="text-[#b5b5bd] mt-6 leading-relaxed">{p.bio}</p>}
           </div>
         </main>
       </div>
