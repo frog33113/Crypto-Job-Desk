@@ -50,8 +50,14 @@ export default async function PublicProfile({
               )}
               <div>
                 <div className="flex items-center gap-3 flex-wrap">
-                  <h1 className="text-2xl font-semibold text-white tracking-tight m-0">
-                    @{user.username}
+                  <h1 className="text-2xl font-semibold tracking-tight m-0">
+                    <a
+                      href={`https://x.com/${user.username}`}
+                      target="_blank"
+                      className="text-white hover:text-[#5b9dd9] transition-colors"
+                    >
+                      @{user.username}
+                    </a>
                   </h1>
                   {isOwn && (
                     <>
