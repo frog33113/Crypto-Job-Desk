@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export async function generateMetadata(): Promise<Metadata> {
+  const url = "https://cryptojobdesk.xyz";
   return {
     title: "Crypto Job Desk",
     description: "A job board for crypto Twitter. Every candidate is verified through Ethos Network.",
@@ -11,6 +12,7 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       title: "Crypto Job Desk",
       description: "A job board for crypto Twitter. Every candidate is verified through Ethos Network.",
+      url,
       images: ["/api/og"],
     },
     twitter: {

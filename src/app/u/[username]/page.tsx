@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 export async function generateMetadata({ params }: { params: Promise<{ username: string }> }) {
   const { username } = await params;
   const handle = username.startsWith("@") ? username.slice(1) : username;
-  const url = `/u/${encodeURIComponent(handle)}`;
+  const url = `https://cryptojobdesk.xyz/u/${encodeURIComponent(handle)}`;
   return {
     title: `@${handle} on Crypto Job Desk`,
     description: `View @${handle}'s profile on Crypto Job Desk — verified through Ethos Network.`,
@@ -39,6 +39,7 @@ export default async function PublicProfile({
   const { username } = await params;
   const { saved } = await searchParams;
   const handle = username.startsWith("@") ? username.slice(1) : username;
+  const profileUrl = `https://cryptojobdesk.xyz/u/${encodeURIComponent(handle)}`;
 
   const u = await pool.query(
     "SELECT id, username, avatar_url, ethos_score, ethos_verified, ethos_profile_url FROM users WHERE username ILIKE $1",
@@ -93,6 +94,31 @@ export default async function PublicProfile({
                         Sign out
                       </a>
                     </>
+                  )}
+                  {!isOwn && (
+                    <button
+                      onClick={() => {
+                        const url = profileUrl;
+                        if (navigator.share) {
+                          navigator
+                            .share({
+                              title: `@${handle} on Crypto Job Desk`,
+                              url,
+                            })
+                            .catch(() => {});
+                        } else {
+                          navigator.clipboard.writeText(url).catch(() => {});
+                        }
+                      }}
+                      className="text-[13px] text-[#8a8a93] hover:text-white transition-colors inline-flex items-center gap-1"
+                    >
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+                        <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        <polyline points="16 6 12 2 8 6" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
+                        <line x1="12" y1="2" x2="12" y2="15" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
+                      </svg>
+                      Share
+                    </button>
                   )}
                 </div>
                 <div className="mt-2 flex items-center gap-3 flex-wrap">
