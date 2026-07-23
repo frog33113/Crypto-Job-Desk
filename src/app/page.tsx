@@ -1,6 +1,9 @@
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
+import Link from "next/link";
+import pool from "@/lib/db";
 import Header from "./components/Header";
+import { EthosBadge } from "./components/EthosBadge";
 
 const features = [
   { title: "Ethos-verified", desc: "On-chain trust scoring on every profile. Know who you're hiring." },
@@ -11,6 +14,21 @@ const features = [
 export default async function Home() {
   const xId = (await cookies()).get("x_id")?.value;
   if (xId) redirect("/candidates");
+
+  // Fetch a real candidate for the preview card
+  const featured = await pool.query(
+    `SELECT u.username, u.avatar_url, u.ethos_score, u.ethos_verified,
+            c.role, c.skills, c.region, c.remote, c.experience
+     FROM users u
+     JOIN candidates c ON c.user_id = u.id
+     WHERE u.ethos_score IS NOT NULL
+     ORDER BY u.ethos_score DESC
+     LIMIT 1`
+  );
+  const preview = featured.rows[0];
+  const previewSkills = preview?.skills
+    ? preview.skills.split(",").map((s: string) => s.trim()).filter(Boolean)
+    : [];
 
   return (
     <>
@@ -57,31 +75,62 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* Candidate preview */}
+        {/* Candidate preview — real data */}
         <section className="max-w-[1080px] mx-auto px-5 pb-28">
           <div className="glass rounded-2xl p-7 max-w-[440px] mx-auto">
             <div className="text-[#55555d] text-xs mb-4 mono">PREVIEW</div>
-            <div className="flex items-center gap-3.5">
-              <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#1a1a20] to-[#0c0c10] border border-[#2e2e38] flex items-center justify-center text-[#5b9dd9] text-xl font-bold shadow-[0_0_16px_rgba(91,157,217,0.15)]">
-                @
-              </div>
-              <div>
-                <div className="text-white font-medium text-[15px]">@candidate</div>
-                <span className="inline-flex items-center gap-1.5 mono text-xs px-2.5 py-1 rounded-full border border-[#2a2a32] bg-[#0c0c10]/60 text-[#b5b5bd] mt-1">
-                  <svg width="11" height="11" viewBox="0 0 40 40" fill="none">
-                    <path d="M19.92 19.96C19.92 21.3282 19.8351 22.6765 19.6703 24H0V32H17.606C16.444 34.8973 14.875 39.5876 12.9697 40H40V32H17.606C18.6188 29.475 19.3225 26.7927 19.6703 24H40V16H19.6801C19.3395 13.208 18.6432 10.5257 17.638 8H40V0H13.0327C14.927 2.4141 16.4855 5.10421 17.638 8H0V16H19.6801C19.8385 17.2978 19.92 18.6194 19.92 19.96Z" fill="#5b9dd9" />
-                  </svg>
-                  <span className="text-white font-medium">1280</span>
-                </span>
-              </div>
-            </div>
-            <div className="mt-5 text-white font-semibold text-lg">Solidity Engineer</div>
-            <div className="text-[#8a8a93] text-sm mt-1">Remote · 4 yrs · DeFi</div>
-            <div className="flex flex-wrap gap-1.5 mt-4">
-              {["Solidity", "Foundry", "DeFi", "Audit"].map((s) => (
-                <span key={s} className="tag">{s}</span>
-              ))}
-            </div>
+            {preview ? (
+              <>
+                <Link href={`/u/${preview.username}`} className="flex items-center gap-3.5 hover:opacity-90 transition-opacity">
+                  {preview.avatar_url ? (
+                    <img
+                      src={preview.avatar_url}
+                      width={56}
+                      height={56}
+                      className="rounded-full border border-[#2e2e38]"
+                      alt={preview.username}
+                    />
+                  ) : (
+                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#1a1a20] to-[#0c0c10] border border-[#2e2e38] flex items-center justify-center text-[#5b9dd9] text-xl font-bold shadow-[0_0_16px_rgba(91,157,217,0.15)]">
+                      @
+                    </div>
+                  )}
+                  <div>
+                    <div className="text-white font-medium text-[15px]">@{preview.username}</div>
+                    <div className="mt-1">
+                      <EthosBadge score={preview.ethos_score} verified={preview.ethos_verified} />
+                    </div>
+                  </div>
+                </Link>
+                <div className="mt-5 text-white font-semibold text-lg">
+                  {preview.role || "Role not specified"}
+                </div>
+                <div className="text-[#8a8a93] text-sm mt-1">
+                  {preview.region || "Anywhere"}
+                  {preview.remote && (!preview.region || !preview.region.toLowerCase().includes("remote")) ? " · remote" : ""}
+                  {preview.experience ? ` · ${preview.experience}` : ""}
+                </div>
+                {previewSkills.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5 mt-4">
+                    {previewSkills.map((s: string) => (
+                      <span key={s} className="tag">{s}</span>
+                    ))}
+                  </div>
+                )}
+              </>
+            ) : (
+              <>
+                <div className="flex items-center gap-3.5">
+                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#1a1a20] to-[#0c0c10] border border-[#2e2e38] flex items-center justify-center text-[#5b9dd9] text-xl font-bold shadow-[0_0_16px_rgba(91,157,217,0.15)]">
+                    @
+                  </div>
+                  <div>
+                    <div className="text-white font-medium text-[15px]">Be the first</div>
+                    <div className="text-[#8a8a93] text-sm mt-1">Sign in to create a profile</div>
+                  </div>
+                </div>
+              </>
+            )}
             <div className="mt-6 pt-5 border-t border-[#1e1e24]">
               <a href="/candidates" className="btn btn-secondary text-[13px] py-2.5 px-4 w-full">
                 View all candidates
