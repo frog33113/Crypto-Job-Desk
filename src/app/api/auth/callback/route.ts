@@ -64,7 +64,7 @@ export async function GET(req: NextRequest) {
     [u.id, u.username, u.name, u.profile_image_url, ethosScore, ethosVerified, ethosProfileUrl]
   );
 
-  const res = NextResponse.redirect(BASE + "/dashboard");
+  const res = NextResponse.redirect(BASE + "/check-profile");
   res.cookies.set("x_id", u.id, {
     httpOnly: true,
     path: "/",
