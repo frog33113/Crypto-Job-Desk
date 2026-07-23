@@ -4,6 +4,31 @@ import Header from "../../components/Header";
 import { EthosBadge } from "../../components/EthosBadge";
 import { getCurrentUser } from "@/lib/auth";
 
+export const dynamic = "force-dynamic";
+
+export async function generateMetadata({ params }: { params: Promise<{ username: string }> }) {
+  const { username } = await params;
+  const handle = username.startsWith("@") ? username.slice(1) : username;
+  const url = `/u/${encodeURIComponent(handle)}`;
+  return {
+    title: `@${handle} on Crypto Job Desk`,
+    description: `View @${handle}'s profile on Crypto Job Desk — verified through Ethos Network.`,
+    icons: { icon: "/icon.svg" },
+    openGraph: {
+      title: `@${handle} on Crypto Job Desk`,
+      description: `View @${handle}'s profile on Crypto Job Desk — verified through Ethos Network.`,
+      url,
+      images: [`/api/og?u=${encodeURIComponent(handle)}`],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `@${handle} on Crypto Job Desk`,
+      description: "Verified through Ethos Network",
+      images: [`/api/og?u=${encodeURIComponent(handle)}`],
+    },
+  };
+}
+
 export default async function PublicProfile({
   params,
   searchParams,

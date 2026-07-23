@@ -1,13 +1,26 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-export const metadata: Metadata = {
-  title: "Crypto Job Desk",
-  description: "A job board for crypto Twitter. Every candidate is verified through Ethos Network.",
-  icons: {
-    icon: "/icon.svg",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "Crypto Job Desk",
+    description: "A job board for crypto Twitter. Every candidate is verified through Ethos Network.",
+    icons: {
+      icon: "/icon.svg",
+    },
+    openGraph: {
+      title: "Crypto Job Desk",
+      description: "A job board for crypto Twitter. Every candidate is verified through Ethos Network.",
+      images: ["/api/og"],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Crypto Job Desk",
+      description: "A job board for crypto Twitter. Every candidate is verified through Ethos Network.",
+      images: ["/api/og"],
+    },
+  };
+}
 
 export default function RootLayout({
   children,
