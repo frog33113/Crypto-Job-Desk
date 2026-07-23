@@ -6,9 +6,11 @@ export async function GET() {
   const xId = (await cookies()).get("x_id")?.value;
   if (!xId) return NextResponse.json({ user: null });
   const r = await pool.query(
-    "SELECT username FROM users WHERE x_id = $1",
+    "SELECT username, avatar_url FROM users WHERE x_id = $1",
     [xId]
   );
-  const username = r.rows[0]?.username || null;
-  return NextResponse.json({ user: username ? { username } : null });
+  const row = r.rows[0];
+  return NextResponse.json({
+    user: row ? { username: row.username, avatar_url: row.avatar_url } : null,
+  });
 }

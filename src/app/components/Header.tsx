@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 
 export default function Header() {
-  const [user, setUser] = useState<{ username: string } | null>(null);
+  const [user, setUser] = useState<{ username: string; avatar_url: string | null } | null>(null);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -15,7 +15,8 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 backdrop-blur-xl bg-[#060608]/80 border-b border-[#1e1e24]">
-      <div className="max-w-[1080px] mx-auto px-5 h-16 flex items-center justify-between gap-4">
+      <div className="max-w-[1080px] mx-auto px-5 h-16 flex items-center gap-4">
+        {/* Left: brand */}
         <Link href="/" className="flex items-center gap-2.5 shrink-0">
           <span className="w-8 h-8 rounded-lg bg-gradient-to-b from-[#1a1a20] to-[#0c0c10] border border-[#2e2e38] flex items-center justify-center shadow-[0_1px_0_rgba(255,255,255,0.05)_inset,0_2px_8px_rgba(0,0,0,0.4)]">
             <svg width="16" height="16" viewBox="0 1 30 30" fill="none">
@@ -33,24 +34,36 @@ export default function Header() {
           </span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-1 text-sm">
+        {/* Center: nav (takes remaining space, centered) */}
+        <nav className="hidden md:flex items-center gap-1 text-sm flex-1 justify-center">
           <Link href="/candidates" className="px-3.5 py-2 rounded-lg text-[#8a8a93] hover:text-white hover:bg-white/5 transition-colors">
             Candidates
           </Link>
           <Link href="/api/auth/login" className="px-3.5 py-2 rounded-lg text-[#8a8a93] hover:text-white hover:bg-white/5 transition-colors">
             Post a profile
           </Link>
-          <a href="https://ethos.network" target="_blank" className="px-3.5 py-2 rounded-lg text-[#8a8a93] hover:text-white hover:bg-white/5 transition-colors">
+          <a href="https://app.ethos.network/" target="_blank" className="px-3.5 py-2 rounded-lg text-[#8a8a93] hover:text-white hover:bg-white/5 transition-colors">
             Ethos
           </a>
         </nav>
 
+        {/* Right: auth */}
         <div className="flex items-center gap-2.5 shrink-0">
           {loaded && user ? (
             <Link href={"/u/" + user.username}>
-              <span className="w-9 h-9 rounded-full bg-gradient-to-br from-[#1a1a20] to-[#0c0c10] border border-[#2e2e38] flex items-center justify-center text-[#5b9dd9] text-sm font-bold shadow-[0_0_12px_rgba(91,157,217,0.2)]">
-                @{user.username.slice(0, 1).toUpperCase()}
-              </span>
+              {user.avatar_url ? (
+                <img
+                  src={user.avatar_url}
+                  alt={user.username}
+                  width={36}
+                  height={36}
+                  className="rounded-full border border-[#2e2e38] shadow-[0_0_12px_rgba(91,157,217,0.2)]"
+                />
+              ) : (
+                <span className="w-9 h-9 rounded-full bg-gradient-to-br from-[#1a1a20] to-[#0c0c10] border border-[#2e2e38] flex items-center justify-center text-[#5b9dd9] text-sm font-bold">
+                  {user.username.slice(0, 1).toUpperCase()}
+                </span>
+              )}
             </Link>
           ) : (
             <>

@@ -12,7 +12,7 @@ async function save(formData: FormData) {
   const u = await pool.query("SELECT id, username FROM users WHERE x_id = $1", [xId]);
   const userId = u.rows[0]?.id;
   const username = u.rows[0]?.username;
-  if (!userId) return;
+  if (!userId) return; // not authorized
   const open = formData.get("open_to_work") === "on";
   const remote = formData.get("remote") === "on";
   await pool.query(

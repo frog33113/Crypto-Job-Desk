@@ -41,6 +41,7 @@ export async function GET(req: NextRequest) {
 
   let ethosScore: number | null = null;
   let ethosVerified: string | null = null;
+  let ethosProfileUrl: string | null = null;
   try {
     const ethosRes = await fetch("https://api.ethos.network/api/v2/users/by/x", {
       method: "POST",
@@ -52,14 +53,15 @@ export async function GET(req: NextRequest) {
     if (e) {
       ethosScore = e.score ?? null;
       ethosVerified = e.humanVerificationStatus ?? null;
+      ethosProfileUrl = e.links?.profile ?? null;
     }
   } catch {}
 
   await pool.query(
-    `INSERT INTO users (x_id, username, display_name, avatar_url, ethos_score, ethos_verified)
-     VALUES ($1, $2, $3, $4, $5, $6)
-     ON CONFLICT (x_id) DO UPDATE SET username=$2, display_name=$3, avatar_url=$4, ethos_score=$5, ethos_verified=$6`,
-    [u.id, u.username, u.name, u.profile_image_url, ethosScore, ethosVerified]
+    `INSERT INTO users (x_id, username, display_name, avatar_url, ethos_score, ethos_verified, ethos_profile_url)
+     VALUES ($1, $2, $3, $4, $5, $6, $7)
+     ON CONFLICT (x_id) DO UPDATE SET username=$2, display_name=$3, avatar_url=$4, ethos_score=$5, ethos_verified=$6, ethos_profile_url=COALESCE($7, users.ethos_profile_url)`,
+    [u.id, u.username, u.name, u.profile_image_url, ethosScore, ethosVerified, ethosProfileUrl]
   );
 
   const res = NextResponse.redirect(BASE + "/dashboard");

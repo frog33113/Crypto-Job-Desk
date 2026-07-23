@@ -16,14 +16,14 @@ export default async function PublicProfile({
   const handle = username.startsWith("@") ? username.slice(1) : username;
 
   const u = await pool.query(
-    "SELECT id, username, avatar_url, ethos_score, ethos_verified FROM users WHERE username ILIKE $1",
+    "SELECT id, username, avatar_url, ethos_score, ethos_verified, ethos_profile_url FROM users WHERE username ILIKE $1",
     [handle]
   );
   const user = u.rows[0];
   if (!user) notFound();
 
   const me = await getCurrentUser();
-  const isOwn = me?.username?.toLowerCase() === user.username.toLowerCase();
+  const isOwn = me?.id === user.id;
 
   const c = await pool.query("SELECT * FROM candidates WHERE user_id = $1", [user.id]);
   const p = c.rows[0];
@@ -49,7 +49,7 @@ export default async function PublicProfile({
                 <img src={user.avatar_url} width={72} height={72} className="rounded-full" alt="" />
               )}
               <div>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 flex-wrap">
                   <h1 className="text-2xl font-semibold text-white tracking-tight m-0">
                     @{user.username}
                   </h1>
@@ -59,8 +59,20 @@ export default async function PublicProfile({
                     </a>
                   )}
                 </div>
-                <div className="mt-2">
+                <div className="mt-2 flex items-center gap-3 flex-wrap">
                   <EthosBadge score={user.ethos_score} verified={user.ethos_verified} />
+                  {user.ethos_profile_url && (
+                    <a
+                      href={user.ethos_profile_url}
+                      target="_blank"
+                      className="inline-flex items-center gap-1.5 text-xs text-[#5b9dd9] hover:text-white transition-colors"
+                    >
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+                        <path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                      Rate on Ethos
+                    </a>
+                  )}
                 </div>
               </div>
             </div>
