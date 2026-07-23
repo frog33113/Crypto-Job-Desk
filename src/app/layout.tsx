@@ -2,8 +2,11 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Crypto Job Desk — Jobs, filtered by on-chain trust",
+  title: "Crypto Job Desk",
   description: "A job board for crypto Twitter. Every candidate is verified through Ethos Network.",
+  icons: {
+    icon: "/icon.svg",
+  },
 };
 
 export default function RootLayout({
