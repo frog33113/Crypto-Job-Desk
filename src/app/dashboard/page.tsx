@@ -25,6 +25,18 @@ async function save(formData: FormData) {
   redirect("/u/" + encodeURIComponent(username || "") + "?saved=1");
 }
 
+async function removeProfile() {
+  "use server";
+  const xId = (await cookies()).get("x_id")?.value;
+  if (!xId) return;
+  const u = await pool.query("SELECT id FROM users WHERE x_id = $1", [xId]);
+  const userId = u.rows[0]?.id;
+  if (!userId) return;
+  await pool.query("DELETE FROM candidates WHERE user_id = $1", [userId]);
+  await pool.query("DELETE FROM users WHERE id = $1", [userId]);
+  redirect("/");
+}
+
 export default async function Dashboard() {
   const user = await getCurrentUser();
   if (!user)
@@ -88,6 +100,12 @@ export default async function Dashboard() {
               className="w-full px-3.5 py-3 bg-[#111114] border border-[#2a2a32] rounded-lg text-white text-sm outline-none focus:border-[#5b9dd9]/50 focus:shadow-[0_0_16px_rgba(91,157,217,0.12)] transition-all min-h-[90px] resize-y"
             />
             <button type="submit" className="btn btn-primary w-full">Save profile</button>
+          </form>
+
+          <form action={removeProfile} className="mt-4">
+            <button type="submit" className="btn btn-secondary w-full !text-red-400 !border-red-400/30 hover:!border-red-400/50">
+              Delete profile
+            </button>
           </form>
         </main>
       </div>

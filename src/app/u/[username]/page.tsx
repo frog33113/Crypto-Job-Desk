@@ -1,8 +1,11 @@
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import pool from "@/lib/db";
 import Header from "../../components/Header";
 import { EthosBadge } from "../../components/EthosBadge";
 import { getCurrentUser } from "@/lib/auth";
+import DeleteJobButton from "../../components/DeleteJobButton";
+import ShareButton from "../../components/ShareButton";
 
 export const dynamic = "force-dynamic";
 
@@ -55,6 +58,13 @@ export default async function PublicProfile({
   const p = c.rows[0];
   const skills = p?.skills ? p.skills.split(",").map((s: string) => s.trim()).filter(Boolean) : [];
 
+  const myJobs = isOwn
+    ? await pool.query(
+        "SELECT id, title, company, job_type, remote, created_at FROM jobs WHERE employer_id = $1 ORDER BY created_at DESC",
+        [user.id]
+      )
+    : { rows: [] as any[] };
+
   return (
     <>
       <Header />
@@ -95,31 +105,7 @@ export default async function PublicProfile({
                       </a>
                     </>
                   )}
-                  {!isOwn && (
-                    <button
-                      onClick={() => {
-                        const url = profileUrl;
-                        if (navigator.share) {
-                          navigator
-                            .share({
-                              title: `@${handle} on Crypto Job Desk`,
-                              url,
-                            })
-                            .catch(() => {});
-                        } else {
-                          navigator.clipboard.writeText(url).catch(() => {});
-                        }
-                      }}
-                      className="text-[13px] text-[#8a8a93] hover:text-white transition-colors inline-flex items-center gap-1"
-                    >
-                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
-                        <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        <polyline points="16 6 12 2 8 6" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
-                        <line x1="12" y1="2" x2="12" y2="15" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
-                      </svg>
-                      Share
-                    </button>
-                  )}
+                  {!isOwn && <ShareButton username={handle} />}
                 </div>
                 <div className="mt-2 flex items-center gap-3 flex-wrap">
                   <EthosBadge score={user.ethos_score} verified={user.ethos_verified} />
@@ -164,6 +150,41 @@ export default async function PublicProfile({
             )}
 
             {p?.bio && <p className="text-[#b5b5bd] mt-6 leading-relaxed">{p.bio}</p>}
+
+            {/* User's jobs */}
+            {isOwn && myJobs.rows.length > 0 && (
+              <div className="mt-8">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-white font-semibold text-lg">My Jobs</h2>
+                  <Link href="/post-job" className="btn btn-primary text-[13px] py-2 px-4">
+                    Post a Job
+                  </Link>
+                </div>
+                <div className="space-y-3">
+                  {myJobs.rows.map((job: any) => (
+                    <div key={job.id} className="glass rounded-xl p-4">
+                      <div className="flex items-start justify-between gap-3">
+                        <div>
+                          <div className="text-white font-medium">{job.title}</div>
+                          <div className="text-[#8a8a93] text-sm">{job.company} · {job.job_type}{job.remote ? " · Remote" : ""}</div>
+                          {job.created_at && (
+                            <div className="text-[#55555d] text-xs mt-1">
+                              {new Date(job.created_at).toLocaleDateString()}
+                            </div>
+                          )}
+                        </div>
+                        <div className="flex items-center gap-2 shrink-0">
+                          <Link href={`/edit-job/${job.id}`} className="text-[13px] text-[#8a8a93] hover:text-white transition-colors">
+                            Edit
+                          </Link>
+                          <DeleteJobButton jobId={job.id} />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </main>
       </div>

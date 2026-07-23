@@ -92,7 +92,11 @@ export default function JobsPage() {
                     <Link href={"/u/" + job.employer_username} className="text-[#8a8a93] text-sm hover:text-white transition-colors">
                       Posted by @{job.employer_username}
                     </Link>
-                    <a href="#" className="btn btn-secondary text-[13px] py-2 px-4">
+                    <a
+                      href={`https://x.com/${job.employer_username}`}
+                      target="_blank"
+                      className="btn btn-secondary text-[13px] py-2 px-4"
+                    >
                       Apply
                     </a>
                   </div>
