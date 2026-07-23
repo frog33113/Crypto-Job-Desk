@@ -3,6 +3,7 @@ import "./globals.css";
 
 export async function generateMetadata(): Promise<Metadata> {
   const url = "https://cryptojobdesk.xyz";
+  const imageUrl = "https://cryptojobdesk.xyz/og.png";
   return {
     title: "Crypto Job Desk",
     description: "A job board for crypto Twitter. Every candidate is verified through Ethos Network.",
@@ -13,13 +14,13 @@ export async function generateMetadata(): Promise<Metadata> {
       title: "Crypto Job Desk",
       description: "A job board for crypto Twitter. Every candidate is verified through Ethos Network.",
       url,
-      images: ["/api/og"],
+      images: [imageUrl],
     },
     twitter: {
       card: "summary_large_image",
       title: "Crypto Job Desk",
       description: "A job board for crypto Twitter. Every candidate is verified through Ethos Network.",
-      images: ["/api/og"],
+      images: [imageUrl],
     },
   };
 }
