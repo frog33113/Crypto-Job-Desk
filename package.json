@@ -9,7 +9,6 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@vercel/og": "^0.11.1",
     "dotenv": "^17.4.2",
     "next": "16.2.10",
     "pg": "^8.22.0",
