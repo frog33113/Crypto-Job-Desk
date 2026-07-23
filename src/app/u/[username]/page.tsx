@@ -54,9 +54,14 @@ export default async function PublicProfile({
                     @{user.username}
                   </h1>
                   {isOwn && (
-                    <a href="/dashboard" className="btn btn-secondary text-[13px] py-2 px-4">
-                      Edit profile
-                    </a>
+                    <>
+                      <a href="/dashboard" className="btn btn-secondary text-[13px] py-2 px-4">
+                        Edit profile
+                      </a>
+                      <a href="/api/auth/logout" className="text-[13px] text-[#8a8a93] hover:text-white transition-colors">
+                        Sign out
+                      </a>
+                    </>
                   )}
                 </div>
                 <div className="mt-2 flex items-center gap-3 flex-wrap">
