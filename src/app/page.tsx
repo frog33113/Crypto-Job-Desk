@@ -1,3 +1,5 @@
+import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 import Header from "./components/Header";
 
 const features = [
@@ -6,7 +8,10 @@ const features = [
   { title: "No recruiters", desc: "Direct hires only. Candidates talk to teams, not agencies." },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const xId = (await cookies()).get("x_id")?.value;
+  if (xId) redirect("/candidates");
+
   return (
     <>
       <Header />
