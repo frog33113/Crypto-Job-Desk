@@ -50,21 +50,26 @@ export default function Header() {
         {/* Right: auth */}
         <div className="flex items-center gap-2.5 shrink-0">
           {loaded && user ? (
-            <Link href={"/u/" + user.username}>
-              {user.avatar_url ? (
-                <img
-                  src={user.avatar_url}
-                  alt={user.username}
-                  width={36}
-                  height={36}
-                  className="rounded-full border border-[#2e2e38] shadow-[0_0_12px_rgba(91,157,217,0.2)]"
-                />
-              ) : (
-                <span className="w-9 h-9 rounded-full bg-gradient-to-br from-[#1a1a20] to-[#0c0c10] border border-[#2e2e38] flex items-center justify-center text-[#5b9dd9] text-sm font-bold">
-                  {user.username.slice(0, 1).toUpperCase()}
-                </span>
-              )}
-            </Link>
+            <div className="flex items-center gap-2.5">
+              <Link href={"/u/" + user.username}>
+                {user.avatar_url ? (
+                  <img
+                    src={user.avatar_url}
+                    alt={user.username}
+                    width={36}
+                    height={36}
+                    className="rounded-full border border-[#2e2e38] shadow-[0_0_12px_rgba(91,157,217,0.2)]"
+                  />
+                ) : (
+                  <span className="w-9 h-9 rounded-full bg-gradient-to-br from-[#1a1a20] to-[#0c0c10] border border-[#2e2e38] flex items-center justify-center text-[#5b9dd9] text-sm font-bold">
+                    {user.username.slice(0, 1).toUpperCase()}
+                  </span>
+                )}
+              </Link>
+              <a href="/api/auth/logout" className="btn btn-secondary text-[13px] py-2 px-4">
+                Sign out
+              </a>
+            </div>
           ) : (
             <>
               <Link href="/api/auth/login" className="btn btn-secondary text-[13px] py-2 px-4">
