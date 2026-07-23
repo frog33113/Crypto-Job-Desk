@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import pool from "@/lib/db";
 import Header from "../../components/Header";
 import { getCurrentUser } from "@/lib/auth";
+import Footer from "../../components/Footer";
 
 async function updateJob(id: number, formData: FormData) {
   "use server";
@@ -118,6 +119,7 @@ export default async function EditJobPage({ params }: { params: Promise<{ id: st
           </form>
         </main>
       </div>
+      <Footer />
     </>
   );
 }

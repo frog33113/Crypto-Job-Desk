@@ -7,5 +7,6 @@
         { "key": "Content-Type", "value": "image/png" }
       ]
     }
-  ]
+  ],
+  "crons": []
 }

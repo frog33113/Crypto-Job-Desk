@@ -6,6 +6,7 @@ import { EthosBadge } from "../../components/EthosBadge";
 import { getCurrentUser } from "@/lib/auth";
 import DeleteJobButton from "../../components/DeleteJobButton";
 import ShareButton from "../../components/ShareButton";
+import Footer from "../../components/Footer";
 
 export const dynamic = "force-dynamic";
 
@@ -188,6 +189,7 @@ export default async function PublicProfile({
           </div>
         </main>
       </div>
+      <Footer />
     </>
   );
 }

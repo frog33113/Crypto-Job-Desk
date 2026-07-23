@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import Link from "next/link";
 import pool from "@/lib/db";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 import { EthosBadge } from "./components/EthosBadge";
 
 const features = [
@@ -139,6 +140,7 @@ export default async function Home() {
           </div>
         </section>
       </div>
+      <Footer />
     </>
   );
 }

@@ -4,6 +4,7 @@ import pool from "@/lib/db";
 import Header from "../components/Header";
 import { EthosBadge } from "../components/EthosBadge";
 import { getCurrentUser } from "@/lib/auth";
+import Footer from "../components/Footer";
 
 async function save(formData: FormData) {
   "use server";
@@ -109,6 +110,7 @@ export default async function Dashboard() {
           </form>
         </main>
       </div>
+      <Footer />
     </>
   );
 }

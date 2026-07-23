@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import pool from "@/lib/db";
 import Header from "../components/Header";
 import { getCurrentUser } from "@/lib/auth";
+import Footer from "../components/Footer";
 
 async function createJob(formData: FormData) {
   "use server";
@@ -113,6 +114,7 @@ export default async function PostJobPage() {
           </form>
         </main>
       </div>
+      <Footer />
     </>
   );
 }

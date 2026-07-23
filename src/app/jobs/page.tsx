@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 type Job = {
   id: number;
@@ -56,7 +57,7 @@ export default function JobsPage() {
           ) : (
             <div className="grid grid-cols-1 gap-4">
               {jobs.map((job) => (
-                <div key={job.id} className="glass glass-hover rounded-2xl p-6">
+                <Link key={job.id} href={`/jobs/${job.id}`} className="glass glass-hover rounded-2xl p-6 block">
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex items-center gap-3">
                       {job.employer_avatar ? (
@@ -89,23 +90,20 @@ export default function JobsPage() {
                     {job.location && <span className="tag">{job.location}</span>}
                   </div>
                   <div className="mt-4 pt-4 border-t border-[#1e1e24] flex items-center justify-between">
-                    <Link href={"/u/" + job.employer_username} className="text-[#8a8a93] text-sm hover:text-white transition-colors">
+                    <span className="text-[#8a8a93] text-sm hover:text-white transition-colors">
                       Posted by @{job.employer_username}
-                    </Link>
-                    <a
-                      href={`https://x.com/${job.employer_username}`}
-                      target="_blank"
-                      className="btn btn-secondary text-[13px] py-2 px-4"
-                    >
-                      Apply
-                    </a>
+                    </span>
+                    <span className="btn btn-secondary text-[13px] py-2 px-4">
+                      View details
+                    </span>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           )}
         </main>
       </div>
+      <Footer />
     </>
   );
 }

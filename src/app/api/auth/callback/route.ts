@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import pool from "@/lib/db";
+import { rateLimit, getClientIP } from "@/lib/rateLimit";
 
 function getBase(req: NextRequest) {
   const host = req.headers.get("host") || "127.0.0.1:3000";
@@ -8,6 +9,10 @@ function getBase(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
+  const ip = getClientIP(req);
+  const lim = rateLimit(ip);
+  if (!lim.ok) return new NextResponse("Too many requests", { status: 429 });
+
   const code = req.nextUrl.searchParams.get("code");
   if (!code) return new NextResponse("No code", { status: 400 });
 
