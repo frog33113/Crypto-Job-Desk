@@ -18,13 +18,13 @@ export async function generateMetadata({ params }: { params: Promise<{ username:
       title: `@${handle} on Crypto Job Desk`,
       description: `View @${handle}'s profile on Crypto Job Desk — verified through Ethos Network.`,
       url,
-      images: [`/api/og?u=${encodeURIComponent(handle)}`],
+      images: ["https://cryptojobdesk.xyz/og.png"],
     },
     twitter: {
       card: "summary_large_image",
       title: `@${handle} on Crypto Job Desk`,
       description: "Verified through Ethos Network",
-      images: [`/api/og?u=${encodeURIComponent(handle)}`],
+      images: ["https://cryptojobdesk.xyz/og.png"],
     },
   };
 }
